@@ -1,0 +1,24 @@
+worker_processes  1;  ## Default: 1
+
+events {
+  worker_connections  1024;
+}
+
+http {
+  include    /etc/nginx/mime.types;
+  include    /etc/nginx/fastcgi.conf;
+
+  default_type application/octet-stream;
+  sendfile     on;
+  tcp_nopush   on;
+
+  server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root /html;
+        index parallax.html;
+    }
+  }
+}

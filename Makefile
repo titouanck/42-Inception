@@ -1,12 +1,10 @@
 all: stop build run
 
 build:
-#	sudo docker build ./srcs/requirements/nginx -t nginx_tls
-	sudo docker build ./srcs/requirements/wordpress -t wordpress_php
+	sudo docker-compose -f ./srcs/docker-compose.yml build
 
 run:
-#	sudo docker run -v $$(pwd)/html:/html -d -p 80:80 -p 443:443  nginx_tls
-	sudo docker run -d wordpress_php
+	sudo docker-compose -f ./srcs/docker-compose.yml up
 
 exec:
 	if [ -n "$$(sudo docker ps -q)" ]; then \	

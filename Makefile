@@ -33,12 +33,15 @@ fclean: clean
 		sudo docker image rm $$(sudo docker images -q); \
 	fi
 
-
 re: fclean all
+
+ls:
+	sudo docker ps -a
+	sudo docker images
 
 git:
 	git add --all
 	git commit -m "$$(date +%d/%m-%H:%M)"
 	git push
 
-.PHONY: all build run exec tty stop kill clean fclean re git
+.PHONY: all build run exec tty stop kill clean fclean re ls git

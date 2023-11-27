@@ -30,7 +30,7 @@ http {
 
         location / {
             root /html;
-            index parallax.html;
+            index gentleMates.html;
         }
     }
 }

@@ -1,11 +1,40 @@
 version: '3'
 services:
   nginx:
+    container_name: nginxCompose
     build:
       context: ./requirements/nginx
-    container_name: nginxCompose
+    restart: always
+    networks:
+      - inception
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ../html:/html
+      - ../wordpress:/var/www/html:ro
+  wordpress:
+    container_name: wordpressCompose
+    build:
+      context: ./requirements/wordpress
+    # restart: always
+    tty: true
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: tico
+      WORDPRESS_DB_PASSWORD: tico
+      WORDPRESS_DB_NAME: wordpress
+    networks:
+      - inception
+    ports:
+      - 9000:80
+    volumes:
+      - ../wordpress:/var/www/html
+
+
+networks:
+  inception:
+    driver: bridge
+
+volumes:
+  wordpress:
+  db_data:

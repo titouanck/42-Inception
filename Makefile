@@ -10,7 +10,7 @@ run:
 
 exec:
 	if [ -n "$$(sudo docker ps -q)" ]; then \	
-		sudo docker exec -it $$(sudo docker ps -q) sh; \
+		sudo docker exec -it $$(sudo docker ps -q) sh;\
 	fi
 
 tty: all exec

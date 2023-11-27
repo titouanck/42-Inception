@@ -4,7 +4,7 @@ build:
 	sudo docker build ./srcs/requirements/nginx -t nginx_tls
 
 run:
-	sudo docker run -v $$(pwd)/html:/html -d -p 8000:80 nginx_tls
+	sudo docker run -v $$(pwd)/html:/html -d -p 8000:8000 -p 8443:8443 nginx_tls
 
 exec:
 	if [ -n "$$(sudo docker ps -q)" ]; then \

@@ -1,24 +1,39 @@
-worker_processes  1;  ## Default: 1
+worker_processes 1;
 
 events {
-  worker_connections  1024;
+    worker_connections 1024;
 }
 
 http {
-  include    /etc/nginx/mime.types;
-  include    /etc/nginx/fastcgi.conf;
+    include /etc/nginx/mime.types;
+    include /etc/nginx/fastcgi.conf;
 
-  default_type application/octet-stream;
-  sendfile     on;
-  tcp_nopush   on;
+    default_type application/octet-stream;
+    sendfile on;
+    tcp_nopush on;
 
-  server {
-    listen       80;
-    server_name  localhost;
+    server {
+        listen 8000;
+        server_name 127.0.0.1;
 
-    location / {
-        root /html;
-        index parallax.html;
+		location / {
+            root /html;
+            index parallax.html;
+        }
     }
-  }
+
+    server {
+        listen 8443 ssl;
+        server_name 127.0.0.1;
+
+        ssl_certificate /openssl/domain_dev.crt;
+        ssl_certificate_key /openssl/domain_dev.key;
+
+		ssl_protocols TLSv1.2 TLSv1.3;
+
+        location / {
+            root /html;
+            index parallax.html;
+        }
+    }
 }

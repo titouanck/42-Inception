@@ -13,21 +13,18 @@ http {
     tcp_nopush on;
 
     server {
-        listen 8000;
-        server_name 127.0.0.1;
+        listen 80;
+		server_name localhost;
 
-		location / {
-            root /html;
-            index parallax.html;
-        }
+		return 301 https://$host:8443$request_uri;
     }
 
     server {
-        listen 8443 ssl;
-        server_name 127.0.0.1;
+        listen 443 ssl;
+        server_name localhost;
 
-        ssl_certificate /openssl/domain_dev.crt;
-        ssl_certificate_key /openssl/domain_dev.key;
+        ssl_certificate /etc/nginx/tls/domain_dev.crt;
+        ssl_certificate_key /etc/nginx/tls/domain_dev.key;
 
 		ssl_protocols TLSv1.2 TLSv1.3;
 

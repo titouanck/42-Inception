@@ -1,13 +1,15 @@
 all: stop build run
 
 build:
-	sudo docker build ./srcs/requirements/nginx -t nginx_tls
+#	sudo docker build ./srcs/requirements/nginx -t nginx_tls
+	sudo docker build ./srcs/requirements/wordpress -t wordpress_php
 
 run:
-	sudo docker run -v $$(pwd)/html:/html -d -p 8000:8000 -p 8443:8443 nginx_tls
+#	sudo docker run -v $$(pwd)/html:/html -d -p 80:80 -p 443:443  nginx_tls
+	sudo docker run -d wordpress_php
 
 exec:
-	if [ -n "$$(sudo docker ps -q)" ]; then \
+	if [ -n "$$(sudo docker ps -q)" ]; then \	
 		sudo docker exec -it $$(sudo docker ps -q) sh; \
 	fi
 

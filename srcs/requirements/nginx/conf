@@ -33,9 +33,7 @@ http {
 		location / {
                 try_files $uri $uri/ /index.php?$args;
         }
-
         location ~ \.php$ {
-
 			fastcgi_pass unix:/var/run/php/php81-fpm.sock;
         }
     }

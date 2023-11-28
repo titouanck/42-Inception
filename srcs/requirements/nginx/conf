@@ -30,7 +30,7 @@ http {
 		index index.php;
 
         location ~ \.php$ {
-			fastcgi_pass unix:/var/run/php/php81-fpm.sock;
+			fastcgi_pass wordpressCompose:9000;
         }
     }
 }

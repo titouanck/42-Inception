@@ -6,7 +6,7 @@ services:
       context: ./requirements/nginx
     restart: always
     depends_on:
-      - wordpress
+      - wordpressCompose
     networks:
       - inception
     ports:

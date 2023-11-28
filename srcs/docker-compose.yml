@@ -5,11 +5,32 @@ services:
     build:
       context: ./requirements/nginx
     restart: always
+    depends_on:
+      - wordpress
+    networks:
+      - inception
     ports:
       - 80:80
       - 443:443
     volumes:
       - ../wordpress:/var/www/html
+  wordpress:
+    container_name: wordpressCompose
+    build:
+      context: ./requirements/wordpress
+    restart: always
+    tty: true
+    networks:
+      - inception
+    ports:
+      - 9000:9000
+    volumes:
+      - ../wordpress:/var/www/html
+
+
+networks:
+  inception:
+    driver: bridge
 
 volumes:
   wordpress:

@@ -29,8 +29,8 @@ http {
 		root /var/www/html;
 		index index.php;
 
-        location ~ \.php$ {
-			fastcgi_pass unix:/var/run/php/php81-fpm.sock;
-        }
+		location ~ \.php$ {
+			fastcgi_pass   172.18.0.2:9000;
+		}
     }
 }

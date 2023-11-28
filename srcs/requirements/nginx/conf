@@ -30,7 +30,7 @@ http {
 		index index.php;
 
         location ~ \.php$ {
-			fastcgi_pass wordpressCompose:9000;
+			fastcgi_pass wordpress:9000;
         }
     }
 }

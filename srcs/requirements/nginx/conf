@@ -23,15 +23,12 @@ http {
         server_name localhost;
 
         ssl_certificate /etc/nginx/tls/domain_dev.crt;
-        ssl_certificate_key /etc/nginx/tls/domain_dev.key;
-        
+        ssl_certificate_key /etc/nginx/tls/domain_dev.key;    
 		ssl_protocols TLSv1.2 TLSv1.3;
+	
 		root /var/www/html;
-		index index.php index.html;
+		index index.php;
 
-		location / {
-                try_files $uri $uri/ /index.php?$args;
-        }
         location ~ \.php$ {
 			fastcgi_pass unix:/var/run/php/php81-fpm.sock;
         }

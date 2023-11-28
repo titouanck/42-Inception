@@ -14,6 +14,6 @@ RUN apk add php-fpm nano
 RUN adduser -D --ingroup www-data www-data
 RUN mkdir -p /var/run/php
 
-CMD ["php-fpm81", "-F"]
+CMD ["sh", "-c", "chown -R www-data:www-data /var/www/html && php-fpm81 -F"]
 # CMD ["nginx", "-g", "daemon off;"]
 

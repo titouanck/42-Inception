@@ -18,6 +18,8 @@ services:
       context: ./requirements/wordpress
     restart: always
     tty: true
+    ports:
+      - 9000:9000
     networks:
       - inception
     volumes:

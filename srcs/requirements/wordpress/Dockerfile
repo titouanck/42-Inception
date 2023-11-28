@@ -1,11 +1,11 @@
 FROM alpine:3.18
 
 EXPOSE 9000
-
-RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
-RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
-RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-
-RUN apk add php-fpm
-
-CMD ["php-fpm81", "-F"]
+COPY ./tools/php-fpm.conf /etc/php81/php-fpm.conf
+WORKDIR /etc/php81
+RUN apk add php-fpm nano
+RUN adduser -D --ingroup www-data www-data
+RUN mkdir -p /var/run/php
+# RUN adduser www-data
+# RUN mkdir -p /var/run/php
+# RUN chmod 755 /var/run/php

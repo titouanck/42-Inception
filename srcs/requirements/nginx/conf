@@ -28,9 +28,12 @@ http {
 
 		ssl_protocols TLSv1.2 TLSv1.3;
 
-        location / {
+        location ~ \.php$ {
             root /var/www/html;
-            index index.php;
-        }
+            index index.php index.html index.htm;
+			fastcgi_pass  127.0.0.1:9000;
+			fastcgi_index  index.php;
+			include  fastcgi.conf;
+		}
     }
 }

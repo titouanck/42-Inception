@@ -11,22 +11,15 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ../wordpress:/var/www/html:ro
+      - ../wordpress:/var/www/html:ro 
   wordpress:
     container_name: wordpressCompose
     build:
       context: ./requirements/wordpress
-    # restart: always
+    restart: always
     tty: true
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: tico
-      WORDPRESS_DB_PASSWORD: tico
-      WORDPRESS_DB_NAME: wordpress
     networks:
       - inception
-    ports:
-      - 9000:80
     volumes:
       - ../wordpress:/var/www/html
 

@@ -6,6 +6,3 @@ WORKDIR /etc/php81
 RUN apk add php-fpm nano
 RUN adduser -D --ingroup www-data www-data
 RUN mkdir -p /var/run/php
-# RUN adduser www-data
-# RUN mkdir -p /var/run/php
-# RUN chmod 755 /var/run/php

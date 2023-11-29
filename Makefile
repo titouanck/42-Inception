@@ -13,10 +13,11 @@ stop:
 	@echo "\033[0;32m[✔️] All containers have been stopped\033[0m"
 
 build:
-	sudo docker-compose -f ./srcs/docker-compose.yml build
+	@sudo docker-compose -f ./srcs/docker-compose.yml build
+	@echo "\033[0;32m[✔️] docker-compose built successfully\033[0m"
 
 run:
-	sudo docker-compose -f ./srcs/docker-compose.yml up
+	@sudo docker-compose -f ./srcs/docker-compose.yml up
 
 ############################################################################
 

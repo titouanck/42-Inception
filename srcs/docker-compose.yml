@@ -1,5 +1,23 @@
 version: '3'
 services:
+
+  mariadb:
+    container_name: mariadbCompose
+    restart: always
+    build:
+      context: ./requirements/mariadb
+    networks:
+      - inception
+    ports:
+      - 3306:3306
+    volumes:
+      - ./requirements/mariadb/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+  
   wordpress:
     container_name: wordpressCompose
     restart: always
@@ -11,6 +29,9 @@ services:
       - 9000:9000
     volumes:
       - ../wordpress:/var/www/html
+    depends_on:
+      - mariadb
+
   nginx:
     container_name: nginxCompose
     restart: always

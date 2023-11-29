@@ -12,5 +12,5 @@ RUN touch /run/openrc/softlevel
 
 # Exposer le port MySQL
 # Commande par défaut pour lancer MariaDB
-CMD ["mysqld", "--user=mysql", "--console"]
-# CMD ["sh", "-c", "tail -f"]
+# CMD ["mysqld", "--user=mysql", "--console"]
+CMD ["sh", "-c", "tail -f"]

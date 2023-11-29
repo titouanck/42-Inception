@@ -1,5 +1,0 @@
-[ERROR] Could not open mysql.plugin table: "Table 'mysql.plugin' doesn't exist". Some plugins may be not loaded
-[ERROR] Can't open and lock privilege tables: Table 'mysql.servers' doesn't exist
-[ERROR] Can't start server : Bind on unix socket: No such file or directory
-[ERROR] Do you already have another server running on socket: /run/mysqld/mysqld.sock ?
-[ERROR] Aborting

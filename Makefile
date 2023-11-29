@@ -84,7 +84,7 @@ ls: ps
 git:
 	@if [ -z "$$(git status --porcelain)" ]; then \
 		echo "\033[0;31m[!] Nothing to commit\033[0m"; \
-		exit 0; \
+		false; \
 	fi
 	@git add --all
 	@git commit -m "$$(date +%d/%m-%H:%M)" || (echo "\033[0;31m[!] Nothing to commit\033[0m" && exit 0)

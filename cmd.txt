@@ -1,0 +1,12 @@
+apk add mysql mysql-client
+
+rc-service mariadb setup
+rc-service mariadb start
+mysql_secure_installation
+mysql -u root
+
+
+
+
+mysqld --user=mysql --console
+

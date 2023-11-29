@@ -65,11 +65,11 @@ clean-img: stop
 	@echo "\033[0;32m[✔️] All images have been deleted\033[0m"
 
 clean-network:
-	sudo docker network prune --force
+	@sudo docker network prune --force
 	@echo "\033[0;32m[✔️] All networks have been deleted\033[0m"
 
 fclean:
-	sudo docker system prune --force
+	@sudo docker system prune --force
 	@echo "\033[0;32m[✔️] It has all been reduced to dust\033[0m"
 purge: fclean
 
@@ -78,12 +78,13 @@ re: fclean all
 ############################################################################
 
 ps:
-	sudo docker ps
+	@sudo docker ps
 ls: ps
 
 git:
 	git add --all
 	git commit -m "$$(date +%d/%m-%H:%M)"
 	git push
+	@echo "\033[0;32m[✔️] Git respository successfuly updated\033[0m"
 
 .PHONY: all stop build run nginx wordpress mariadb kill clean clean-img clean-network fclean pruge re ps ls git

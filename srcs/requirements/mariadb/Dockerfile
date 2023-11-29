@@ -1,18 +1,13 @@
 FROM alpine:3.18
 
-# Installer MariaDB
-RUN apk update
-RUN apk add mariadb mariadb-client openrc
-RUN openrc
-RUN touch /run/openrc/softlevel
-# RUN mysql_install_db
+RUN apk update && \
+    apk add --no-cache mysql mysql-client
 
-# Copier le script d'initialisation dans le conteneur
-# COPY init.sql /docker-entrypoint-initdb.d/
+RUN mkdir -p /var/lib/mysql
 
-# Exposer le port MySQL
+COPY my.cnf /etc/mysql/my.cnf
+
 EXPOSE 3306
 
-# Commande par défaut pour lancer MariaDB
-# CMD ["mysqld", "--user=mysql", "--console"]
-CMD ["sh", "-c", "tail -f"]
+# Démarrez le service MySQL lorsque le conteneur démarre
+CMD ["mysqld", "--user=mysql", "--console"]

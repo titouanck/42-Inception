@@ -82,8 +82,12 @@ ps:
 ls: ps
 
 git:
+	@if [ -z "$$(git status --porcelain)" ]; then \
+		echo "\033[0;31m[!] Nothing to commit\033[0m"; \
+		exit 0; \
+	fi
 	@git add --all
-	@git commit -m "$$(date +%d/%m-%H:%M)" || (echo "\033[0;31m[!] Nothing to commit\033[0m" && echo test haha && exit 0)
+	@git commit -m "$$(date +%d/%m-%H:%M)" || (echo "\033[0;31m[!] Nothing to commit\033[0m" && exit 0)
 	@git push  || (echo "\033[0;31m[!] git push failed\033[0m" && exit 0)
 	@echo "\033[0;32m[✔️] Git respository successfuly updated\033[0m"
 

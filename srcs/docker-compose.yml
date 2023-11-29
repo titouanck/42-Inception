@@ -1,32 +1,29 @@
 version: '3'
 services:
-  nginx:
-    container_name: nginxCompose
-    build:
-      context: ./requirements/nginx
-    restart: always
-    depends_on:
-      - wordpress
-    networks:
-      - inception
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ../wordpress:/var/www/html
   wordpress:
     container_name: wordpressCompose
+    restart: always
     build:
       context: ./requirements/wordpress
-    restart: always
-    tty: true
     networks:
       - inception
     ports:
       - 9000:9000
     volumes:
       - ../wordpress:/var/www/html
-
+  nginx:
+    container_name: nginxCompose
+    restart: always
+    build:
+      context: ./requirements/nginx
+    networks:
+      - inception
+    ports:
+      - 443:443
+    volumes:
+      - ../wordpress:/var/www/html:ro
+    depends_on:
+      - wordpress
 
 networks:
   inception:

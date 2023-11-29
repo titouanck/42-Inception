@@ -82,9 +82,9 @@ ps:
 ls: ps
 
 git:
-	git add --all
-	git commit -m "$$(date +%d/%m-%H:%M)"
-	git push
+	@git add --all || (echo "\033[0;31m[!] Nothing to add\033[0m" && exit 0)
+	@git commit -m "$$(date +%d/%m-%H:%M)" || (echo "\033[0;31m[!] Nothing to commit\033[0m" && exit 0)
+	@git push  || (echo "\033[0;31m[!] git push failed\033[0m" && exit 0)
 	@echo "\033[0;32m[✔️] Git respository successfuly updated\033[0m"
 
 .PHONY: all stop build run nginx wordpress mariadb kill clean clean-img clean-network fclean pruge re ps ls git

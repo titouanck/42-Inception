@@ -7,6 +7,9 @@ RUN openrc
 RUN touch /run/openrc/softlevel
 RUN rm -rf /run/mysqld/mysqld.sock
 RUN mkdir -p /run/mysqld
+COPY ./tools/my.cnf /etc
+COPY ./tools/script.sh /
+# RUN /script.sh
 # RUN mysql_install_db
 
 # Copier le script d'initialisation dans le conteneur

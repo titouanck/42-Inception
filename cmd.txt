@@ -5,8 +5,4 @@ rc-service mariadb start
 mysql_secure_installation
 mysql -u root
 
-
-
-
 mysqld --user=mysql --console
-

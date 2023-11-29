@@ -69,8 +69,7 @@ clean-network:
 	@sudo docker network prune --force
 	@echo "\033[0;32m[✔️] All networks have been deleted\033[0m"
 
-fclean: stop
-	@sudo docker system prune --force
+fclean: stop kill clean clean-network clean-img
 	@echo "\033[0;32m[✔️] It has all been reduced to dust\033[0m"
 purge: fclean
 

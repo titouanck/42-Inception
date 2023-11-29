@@ -1,6 +1,5 @@
 FROM alpine:3.18
 
-# Installer MariaDB
 RUN apk update
 RUN apk --no-cache add mariadb mariadb-client openrc
 RUN openrc

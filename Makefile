@@ -2,6 +2,8 @@ nginxContainer = nginxCompose
 wordpressContainer = wordpressCompose
 mariadbContainer = mariadbCompose
 
+############################################################################
+
 all: stop build run
 
 stop:

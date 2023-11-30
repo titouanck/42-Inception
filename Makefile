@@ -86,13 +86,14 @@ clean-img:
 	fi
 	@if [ -n "$$(sudo docker images | grep srcs_mariadb)" ]; then \
 		sudo docker image rm srcs_mariadb; \
+	fi
 	@echo "\033[0;32m[✔️] All images have been deleted\033[0m"
 
 clean-network:
 	@sudo docker network prune --force
 	@echo "\033[0;32m[✔️] All networks have been deleted\033[0m"
 
-fclean: stop kill clean clean-network clean-img
+fclean: stop clean clean-img clean-network
 	@echo "\033[0;32m[✔️] It has all been reduced to dust\033[0m"
 purge: fclean
 

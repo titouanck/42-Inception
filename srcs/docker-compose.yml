@@ -8,8 +8,6 @@ services:
       context: ./requirements/mariadb
     networks:
       - inception
-    ports:
-      - 3306:3306
     volumes:
       - ../tmp/db:/var/lib/mysql
     environment:
@@ -25,8 +23,6 @@ services:
       context: ./requirements/wordpress
     networks:
       - inception
-    ports:
-      - 9000:9000
     volumes:
       - ../tmp/wordpress:/var/www/html
     depends_on:

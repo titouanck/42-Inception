@@ -96,12 +96,11 @@ clean-network:
 fclean: stop clean clean-img clean-network
 	@echo "\033[0;32m[✔️] It has all been reduced to dust\033[0m"
 
-purge: fclean
-	@echo "\033[0;31m[!] db and wordpress volumes will be deleted in: 3\033[0m"
-	@sleep 0.9 && echo "\033[0;31m[!] db and wordpress volumes will be deleted in: 2\033[0m"
-	@sleep 0.9 && echo "\033[0;31m[!] db and wordpress volumes will be deleted in: 1\033[0m"
-	@sleep 0.9 && rm -rf ./tmp
-	@echo "\033[0;32m[✔️] Done\033[0m"
+rm-volumes:
+	@sudo rm -rf ./tmp
+	@echo "\033[0;32m[✔️] All volumes have been deleted\033[0m"
+
+purge: fclean rm-volumes
 
 re: fclean all
 

@@ -10,11 +10,8 @@ services:
       - inception
     volumes:
       - ../tmp/db:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: database
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+    env_file:
+    - .env
   
   wordpress:
     container_name: wordpressCompose
@@ -41,6 +38,8 @@ services:
       - ../tmp/wordpress:/var/www/html:ro
     depends_on:
       - wordpress
+    environment:
+      - MY_VARIABLE=${MY_VARIABLE}
 
 networks:
   inception:

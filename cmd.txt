@@ -6,3 +6,13 @@ mysql_secure_installation
 mysql -u root
 
 mysqld --user=mysql --console
+
+
+sudo docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(sudo docker ps -q)
+
+
+
+CREATE DATABASE ticodb;
+CREATE USER 'tico45'@'%' IDENTIFIED BY 'tico45';
+GRANT ALL PRIVILEGES ON ticodb.* TO 'tico45'@'%' IDENTIFIED BY 'tico45';
+172.29.0.2

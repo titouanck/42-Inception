@@ -95,7 +95,9 @@ clean-network:
 
 fclean: stop clean clean-img clean-network
 	@echo "\033[0;32m[✔️] It has all been reduced to dust\033[0m"
+
 purge: fclean
+	rm -rf ./tmp
 
 re: fclean all
 

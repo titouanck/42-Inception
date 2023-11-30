@@ -5,6 +5,7 @@ RUN apk --no-cache add mariadb mariadb-client openrc
 RUN openrc
 RUN touch /run/openrc/softlevel
 COPY ./conf/my.cnf /etc
+COPY ./conf/init.sql /etc
 RUN mkdir -p /run/mysqld
 
 CMD ["sh", "-c", "rc-service mariadb setup && mysqld --user=root --console"]

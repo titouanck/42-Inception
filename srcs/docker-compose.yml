@@ -11,7 +11,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./requirements/mariadb/db:/var/lib/mysql
+      - ../tmp/db:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: database
@@ -28,7 +28,7 @@ services:
     ports:
       - 9000:9000
     volumes:
-      - ../wordpress:/var/www/html
+      - ../tmp/wordpress:/var/www/html
     depends_on:
       - mariadb
 
@@ -42,7 +42,7 @@ services:
     ports:
       - 443:443
     volumes:
-      - ../wordpress:/var/www/html:ro
+      - ../tmp/wordpress:/var/www/html:ro
     depends_on:
       - wordpress
 

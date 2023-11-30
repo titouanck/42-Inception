@@ -7,8 +7,14 @@ mariadbContainer = mariadbCompose
 all: stop build run
 
 stop:
-	@if [ -n "$$(sudo docker ps -q)" ]; then \
-		sudo docker stop $$(sudo docker ps -q); \
+	@if [ -n "$$(sudo docker ps | grep $(nginxContainer))" ]; then \
+		sudo docker stop $(nginxContainer); \
+	fi
+	@if [ -n "$$(sudo docker ps | grep $(wordpressContainer))" ]; then \
+		sudo docker stop $(wordpressContainer); \
+	fi
+	@if [ -n "$$(sudo docker ps | grep $(mariadbContainer))" ]; then \
+		sudo docker stop $(mariadbContainer); \
 	fi
 	@echo "\033[0;32m[✔️] All containers have been stopped\033[0m"
 
@@ -48,21 +54,38 @@ mariadb:
 ############################################################################
 
 kill:
-	@if [ -n "$$(sudo docker ps -q)" ]; then \
-		sudo docker kill $$(sudo docker ps -q); \
+	@if [ -n "$$(sudo docker ps | grep $(nginxContainer))" ]; then \
+		sudo docker kill $(nginxContainer); \
+	fi
+	@if [ -n "$$(sudo docker ps | grep $(wordpressContainer))" ]; then \
+		sudo docker kill $(wordpressContainer); \
+	fi
+	@if [ -n "$$(sudo docker ps | grep $(mariadbContainer))" ]; then \
+		sudo docker kill $(mariadbContainer); \
 	fi
 	@echo "\033[0;32m[✔️] All containers have been killed\033[0m"
 	
-clean: stop
-	@if [ -n "$$(sudo docker ps -qa)" ]; then \
-		sudo docker rm $$(sudo docker ps -qa); \
+clean:
+	@if [ -n "$$(sudo docker ps -a | grep $(nginxContainer))" ]; then \
+		sudo docker rm $(nginxContainer); \
+	fi
+	@if [ -n "$$(sudo docker ps -a | grep $(wordpressContainer))" ]; then \
+		sudo docker rm $(wordpressContainer); \
+	fi
+	@if [ -n "$$(sudo docker ps -a | grep $(mariadbContainer))" ]; then \
+		sudo docker rm $(mariadbContainer); \
 	fi
 	@echo "\033[0;32m[✔️] All containers have been deleted\033[0m"
 
-clean-img: stop
-	@if [ -n "$$(sudo docker images -q)" ]; then \
-		sudo docker image rm $$(sudo docker images -q); \
+clean-img:
+	@if [ -n "$$(sudo docker images | grep srcs_nginx)" ]; then \
+		sudo docker image rm srcs_nginx; \
 	fi
+	@if [ -n "$$(sudo docker images | grep srcs_wordpress)" ]; then \
+		sudo docker image rm srcs_wordpress; \
+	fi
+	@if [ -n "$$(sudo docker images | grep srcs_mariadb)" ]; then \
+		sudo docker image rm srcs_mariadb; \
 	@echo "\033[0;32m[✔️] All images have been deleted\033[0m"
 
 clean-network:

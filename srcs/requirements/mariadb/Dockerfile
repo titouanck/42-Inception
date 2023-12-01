@@ -1,5 +1,5 @@
 # mariadb container
-FROM alpine:3.18
+FROM alpine:PENULTIMATE_STABLE
 
 RUN apk update
 RUN apk --no-cache add mariadb mariadb-client openrc

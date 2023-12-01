@@ -8,7 +8,7 @@ DNS_REDIRECTION = $(shell echo $$USER).42.fr
 TARGET_LINE = 127.0.0.1 $(DNS_REDIRECTION)
 
 DOCKERHUB_IMG=alpine
-DOCKERHUB_IMGV=3.18
+PENULTIMATE_STABLE=$(shell curl -s "https://www.alpinelinux.org/releases/" | awk '/<tr>/,/<\/tr>/' | grep dl-cdn.alpinelinux.org/alpine/v | sed -n 2p  | sed -n 's/<td><a href="https:\/\/dl-cdn\.alpinelinux\.org\/alpine\/\(v[0-9.]\+\)\/">v[0-9.]\+<\/a><\/td>/\1/p' | sed -n 's/.*v\([0-9.]\+\).*/\1/p')
 
 ############################################################################
 
@@ -52,12 +52,15 @@ setup-dns:
     fi
 
 setup-alpine:
-	@if [ ! -n "$$(sudo docker images | grep $(DOCKERHUB_IMG) | grep $(DOCKERHUB_IMGV))" ]; then \
-		echo "\033[0;33m[ℹ️] Pulling $(DOCKERHUB_IMG):$(DOCKERHUB_IMGV) from Dockerhub\033[0m"; \
-		sudo docker pull $(DOCKERHUB_IMG):$(DOCKERHUB_IMGV); \
+	@if [ ! -n "$$(sudo docker images | grep $(DOCKERHUB_IMG) | grep PENULTIMATE_STABLE)" ]; then \
+		echo "\033[0;33m[ℹ️] Pulling $(DOCKERHUB_IMG):$(PENULTIMATE_STABLE) from Dockerhub\033[0m"; \
+		sudo docker pull $(DOCKERHUB_IMG):$(PENULTIMATE_STABLE); \
+		sudo docker tag $(DOCKERHUB_IMG):$(PENULTIMATE_STABLE) $(DOCKERHUB_IMG):PENULTIMATE_STABLE; \
 	else \
-        echo "$(DOCKERHUB_IMG):$(DOCKERHUB_IMGV) already exists on this machine"; \
+        echo "$(DOCKERHUB_IMG):$(PENULTIMATE_STABLE) already exists on this machine, to check for updates run 'make update-alpine'"; \
 	fi
+
+update-alpine: clean-img setup-alpine
 
 ############################################################################
 
@@ -121,6 +124,9 @@ clean-img:
 	@if [ -n "$$(sudo docker images | grep 42-inception | grep mariadb)" ]; then \
 		sudo docker image rm mariadb:42-inception; \
 	fi
+	@if [ -n "$$(sudo docker images | grep PENULTIMATE_STABLE | grep alpine)" ]; then \
+		sudo docker image rm -f alpine:PENULTIMATE_STABLE; \
+	fi
 	@echo "\033[0;32m[✔️] Inception images have been deleted\033[0m"
 
 clean-network:
@@ -172,4 +178,4 @@ dns-check:
 		echo "\033[0;33m[ℹ️] Inception containers are not running, therefore dns-check cannot be done.\033[0m"; \
 	fi
 	
-.PHONY: all dependencies setup-dns setup-alpine stop build run nginx wordpress mariadb kill clean clean-img clean-network clean-volumes fclean re purge purge-re ps ls git dns-check
+.PHONY: all dependencies setup-dns setup-alpine update-alpine stop build run nginx wordpress mariadb kill clean clean-img clean-network clean-volumes fclean re purge purge-re ps ls git dns-check

@@ -112,14 +112,14 @@ clean:
 	@echo "\033[0;32m[✔️] Inception containers have been deleted\033[0m"
 
 clean-img:
-	@if [ -n "$$(sudo docker images | grep srcs_nginx)" ]; then \
-		sudo docker image rm srcs_nginx; \
+	@if [ -n "$$(sudo docker images | grep 42-inception | grep nginx)" ]; then \
+		sudo docker image rm nginx:42-inception; \
 	fi
-	@if [ -n "$$(sudo docker images | grep srcs_wordpress)" ]; then \
-		sudo docker image rm srcs_wordpress; \
+	@if [ -n "$$(sudo docker images | grep 42-inception | grep wordpress)" ]; then \
+		sudo docker image rm wordpress:42-inception; \
 	fi
-	@if [ -n "$$(sudo docker images | grep srcs_mariadb)" ]; then \
-		sudo docker image rm srcs_mariadb; \
+	@if [ -n "$$(sudo docker images | grep 42-inception | grep mariadb)" ]; then \
+		sudo docker image rm mariadb:42-inception; \
 	fi
 	@echo "\033[0;32m[✔️] Inception images have been deleted\033[0m"
 

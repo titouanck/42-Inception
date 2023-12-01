@@ -6,6 +6,7 @@ services:
     restart: always
     build:
       context: ./requirements/mariadb
+    image: mariadb:42-inception
     networks:
       - inception
     volumes:
@@ -20,6 +21,7 @@ services:
     restart: always
     build:
       context: ./requirements/wordpress
+    image: wordpress:42-inception
     networks:
       - inception
     volumes:
@@ -38,6 +40,7 @@ services:
       context: ./requirements/nginx
       args:
         - CONTAINER_USER=${SUDO_USER}
+    image: nginx:42-inception
     networks:
       - inception
     ports:

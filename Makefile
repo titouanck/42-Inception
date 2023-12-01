@@ -9,7 +9,7 @@ TARGET_LINE = 127.0.0.1 $(DNS_REDIRECTION)
 
 ############################################################################
 
-all: stop build run
+all: dns stop build run
 
 dependencies:
 	@echo "To make this work, you may need to install:"

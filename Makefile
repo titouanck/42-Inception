@@ -24,7 +24,7 @@ dns:
 	@if ! grep -qF "$(TARGET_LINE)" $(HOSTS_FILE); then \
 		echo "\033[0;33m[ℹ️] Adding $(TARGET_LINE) to $(HOSTS_FILE)\033[0m"; \
         echo "Adding $(TARGET_LINE) to $(HOSTS_FILE)"; \
-        sudo sh -c "echo '$(TARGET_LINE)' >> $(HOSTS_FILE)"; \
+		sudo echo "$(TARGET_LINE)" > /tmp/inception_dns.txt && sudo cat /etc/hosts >> /tmp/inception_dns.txt && sudo mv /tmp/inception_dns.txt /etc/hosts ; \
     else \
         echo "$(TARGET_LINE) already exists in $(HOSTS_FILE)"; \
     fi

@@ -93,16 +93,23 @@ clean-network:
 	@sudo docker network prune --force
 	@echo "\033[0;32m[✔️] All networks have been deleted\033[0m"
 
-fclean: stop clean clean-img clean-network
+fclean: stop clean clean-img
 	@echo "\033[0;32m[✔️] It has all been reduced to dust\033[0m"
 
 rm-volumes:
-	@sudo rm -rf ./tmp
-	@echo "\033[0;32m[✔️] All volumes have been deleted\033[0m"
-
-purge: fclean rm-volumes
+	@echo "\033[1;31m[!] Are you sure you want to delete all volumes? (y/n)\033[0m"
+	@read -p "" confirm; \
+	if [ "$$(echo $$confirm | tr '[:upper:]' '[:lower:]')" = "y" ] || [ "$$(echo $$confirm | tr '[:upper:]' '[:lower:]')" = "yes" ]; then \
+		sudo rm -rf /home/tchevrie/wordpress /home/tchevrie/db; \
+		echo "\033[0;32m[✔️] All volumes have been deleted\033[0m"; \
+	else \
+		echo "\033[0;33m[ℹ️] Operation canceled\033[0m"; \
+	fi
+purge: fclean clean-network rm-volumes
 
 re: fclean all
+
+purge-re: purge all
 
 ############################################################################
 
@@ -120,4 +127,4 @@ git:
 	@git push
 	@echo "\033[0;32m[✔️] Git respository successfuly updated\033[0m"
 
-.PHONY: all stop build run nginx wordpress mariadb kill clean clean-img clean-network fclean pruge re ps ls git
+.PHONY: all stop build run nginx wordpress mariadb kill clean clean-img clean-network fclean purge re purge-re ps ls git

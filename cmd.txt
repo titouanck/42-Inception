@@ -26,3 +26,5 @@ l'intégralité de votre application (c'est-à-dire qu'il doit créer les images
 Pour des raisons de performances, les conteneurs doivent être construits soit à partir de l'avant-dernière
 version stable d'Alpine, soit à partir de Debian. Le choix t'appartient.
 // check les versions
+
+openssl req -x509 -nodes -newkey rsa:2048 -keyout private.key -out certificate.crt -days 365 -subj "/CN=yourdomain.com" -addext "subjectAltName=DNS:yourdomain.com" -addext "keyUsage=keyEncipherment,dataEncipherment"

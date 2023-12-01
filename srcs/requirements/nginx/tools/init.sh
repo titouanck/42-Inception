@@ -1,0 +1,1 @@
+sed -i "s/{{CONTAINER_USER}}/$CONTAINER_USER/" /etc/nginx/nginx.conf

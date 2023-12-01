@@ -36,6 +36,8 @@ services:
     restart: always
     build:
       context: ./requirements/nginx
+      args:
+        - CONTAINER_USER=${SUDO_USER}
     networks:
       - inception
     ports:
@@ -43,7 +45,7 @@ services:
     volumes:
       - /home/${SUDO_USER}/data/wordpress:/var/www/html:ro
     environment:
-      - DOMAIN_NAME=${DOMAIN_NAME}
+      - CONTAINER_USER=${SUDO_USER}
     depends_on:
       - wordpress
 

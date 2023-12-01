@@ -153,7 +153,8 @@ clean-volumes:
 	fi
 
 clean-dns:
-	sudo sed -i '/#FROM $(GIT_REPO)/d' /etc/hosts
+	@sudo sed -i '/#FROM $(GIT_REPO)/d' /etc/hosts
+	@echo "\033[0;32m[✔️] Inception DNS redirections have been deleted\033[0m"
 
 fclean: stop clean clean-img clean-network clean-dns
 re: fclean all

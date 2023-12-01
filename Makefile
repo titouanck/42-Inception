@@ -12,18 +12,11 @@ TARGET_LINE = 127.0.0.1 $(DNS_REDIRECTION)
 DOCKERHUB_IMG=alpine
 
 # IF THIS NO LONGER WORK JUST MANUALLY PUT THE VERSION YOU WANT, (EX:PENULTIMATE_STABLE=3.17)
-PENULTIMATE_STABLE=$(shell curl -s "https://www.alpinelinux.org/releases/" | awk '/<tr>/,/<\/tr>/' | grep dl-cdn.alpinelinux.org/alpine/v | sed -n 2p  | sed -n 's/<td><a href="https:\/\/dl-cdn\.alpinelinux\.org\/alpine\/\(v[0-9.]\+\)\/">v[0-9.]\+<\/a><\/td>/\1/p' | sed -n 's/.*v\([0-9.]\+\).*/\1/p')
+PENULTIMATE_STABLE=$(shell curl -s "https://www.alpinelinux.org/releases/" | grep "\-stable" | sed -n 2p  | sed -n 's/.*\/\([0-9.]\+\)-stable.*/\1/p')
 
 ############################################################################
 
 all: setup-dns setup-alpine stop build run
-
-dependencies:
-	@echo "To make this work, you need to have access to sudo and you may need to install:"
-	@echo "- docker"
-	@echo "- docker-compose"
-
-############################################################################
 
 stop:
 	@if [ -n "$$(sudo docker ps | grep $(nginxContainer))" ]; then \
@@ -164,10 +157,6 @@ purge-re: purge all
 
 ############################################################################
 
-ps:
-	@sudo docker ps
-ls: ps
-
 git:
 	@if [ -z "$$(git status --porcelain)" ]; then \
 		echo "\033[0;33m[ℹ️] Nothing to commit\033[0m"; \
@@ -186,4 +175,4 @@ dns-check:
 		echo "\033[0;33m[ℹ️] Inception containers are not running, therefore dns-check cannot be done.\033[0m"; \
 	fi
 	
-.PHONY: all dependencies setup-dns setup-alpine update-alpine stop build run nginx wordpress mariadb kill clean clean-img clean-network clean-volumes clean-dns fclean re purge purge-re ps ls git dns-check
+.PHONY: all setup-dns setup-alpine update-alpine stop build run nginx wordpress mariadb kill clean clean-img clean-network clean-volumes clean-dns fclean re purge purge-re git dns-check

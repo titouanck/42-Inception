@@ -10,6 +10,8 @@ DNS_REDIRECTION = $(shell echo $$USER).42.fr
 TARGET_LINE = 127.0.0.1 $(DNS_REDIRECTION)
 
 DOCKERHUB_IMG=alpine
+
+# IF THIS NO LONGER WORK JUST MANUALLY PUT THE VERSION YOU WANT, (EX:PENULTIMATE_STABLE=3.17)
 PENULTIMATE_STABLE=$(shell curl -s "https://www.alpinelinux.org/releases/" | awk '/<tr>/,/<\/tr>/' | grep dl-cdn.alpinelinux.org/alpine/v | sed -n 2p  | sed -n 's/<td><a href="https:\/\/dl-cdn\.alpinelinux\.org\/alpine\/\(v[0-9.]\+\)\/">v[0-9.]\+<\/a><\/td>/\1/p' | sed -n 's/.*v\([0-9.]\+\).*/\1/p')
 
 ############################################################################

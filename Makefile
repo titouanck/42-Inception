@@ -7,27 +7,19 @@ HOSTS_FILE = /etc/hosts
 DNS_REDIRECTION = $(shell echo $$USER).42.fr
 TARGET_LINE = 127.0.0.1 $(DNS_REDIRECTION)
 
+DOCKERHUB_IMG=alpine
+DOCKERHUB_IMGV=3.18
+
 ############################################################################
 
-all: stop dns build run
+all: setup-dns setup-alpine stop build run
 
 dependencies:
-	@echo "To make this work, you may need to install:"
+	@echo "To make this work, you need to have access to sudo and you may need to install:"
 	@echo "- docker"
 	@echo "- docker-compose"
-	@echo "- dnsmasq"
-	@echo "- The corresponding alpine-linux image from dockerhub needed by the containers (Required on certain distribs only)"
 
 ############################################################################
-
-dns:
-	@if ! grep -qF "$(TARGET_LINE)" $(HOSTS_FILE); then \
-		echo "\033[0;33m[ℹ️] Adding $(TARGET_LINE) to $(HOSTS_FILE)\033[0m"; \
-        echo "Adding $(TARGET_LINE) to $(HOSTS_FILE)"; \
-		sudo echo "$(TARGET_LINE)" > /tmp/inception_dns.txt && sudo cat /etc/hosts >> /tmp/inception_dns.txt && sudo mv /tmp/inception_dns.txt /etc/hosts ; \
-    else \
-        echo "$(TARGET_LINE) already exists in $(HOSTS_FILE)"; \
-    fi
 
 stop:
 	@if [ -n "$$(sudo docker ps | grep $(nginxContainer))" ]; then \
@@ -47,6 +39,25 @@ build:
 
 run:
 	@sudo docker-compose -f ./srcs/docker-compose.yml up
+
+############################################################################
+
+setup-dns:
+	@if ! grep -qF "$(TARGET_LINE)" $(HOSTS_FILE); then \
+		echo "\033[0;33m[ℹ️] Adding $(TARGET_LINE) to $(HOSTS_FILE)\033[0m"; \
+        echo "Adding $(TARGET_LINE) to $(HOSTS_FILE)"; \
+		sudo echo "$(TARGET_LINE)" > /tmp/inception_dns.txt && sudo cat /etc/hosts >> /tmp/inception_dns.txt && sudo mv /tmp/inception_dns.txt /etc/hosts ; \
+    else \
+        echo "$(TARGET_LINE) already exists in $(HOSTS_FILE)"; \
+    fi
+
+setup-alpine:
+	@if [ ! -n "$$(sudo docker images | grep $(DOCKERHUB_IMG) | grep $(DOCKERHUB_IMGV))" ]; then \
+		echo "\033[0;33m[ℹ️] Pulling $(DOCKERHUB_IMG):$(DOCKERHUB_IMGV) from Dockerhub\033[0m"; \
+		sudo docker pull $(DOCKERHUB_IMG):$(DOCKERHUB_IMGV); \
+	else \
+        echo "$(DOCKERHUB_IMG):$(DOCKERHUB_IMGV) already exists on this machine"; \
+	fi
 
 ############################################################################
 
@@ -161,4 +172,4 @@ dns-check:
 		echo "\033[0;33m[ℹ️] Inception containers are not running, therefore dns-check cannot be done.\033[0m"; \
 	fi
 	
-.PHONY: all dependencies dns stop build run nginx wordpress mariadb kill clean clean-img clean-network clean-volumes fclean re purge purge-re ps ls git dns-check
+.PHONY: all dependencies setup-dns setup-alpine stop build run nginx wordpress mariadb kill clean clean-img clean-network clean-volumes fclean re purge purge-re ps ls git dns-check

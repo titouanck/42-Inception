@@ -9,7 +9,7 @@ services:
     networks:
       - inception
     volumes:
-      - /home/tchevrie/db:/var/lib/mysql
+      - /home/${SUDO_USER}/data/db:/var/lib/mysql
     environment:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
@@ -23,7 +23,7 @@ services:
     networks:
       - inception
     volumes:
-      - /home/tchevrie/wordpress:/var/www/html
+      - /home/${SUDO_USER}/data/wordpress:/var/www/html
     environment:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
@@ -41,7 +41,7 @@ services:
     ports:
       - 443:443
     volumes:
-      - /home/tchevrie/wordpress:/var/www/html:ro
+      - /home/${SUDO_USER}/data/wordpress:/var/www/html:ro
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
     depends_on:

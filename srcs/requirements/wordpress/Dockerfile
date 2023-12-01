@@ -1,5 +1,5 @@
 # wordpress container
-FROM alpine::PENULTIMATE_STABLE
+FROM alpine:PENULTIMATE_STABLE
 
 RUN apk update
 RUN apk --no-cache add php-fpm php-mysqli

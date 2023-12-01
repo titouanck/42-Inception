@@ -3,9 +3,30 @@ nginxContainer = nginxCompose
 wordpressContainer = wordpressCompose
 mariadbContainer = mariadbCompose
 
+HOSTS_FILE = /etc/hosts
+DNS_REDIRECTION = $(shell echo $$USER).42.fr
+TARGET_LINE = 127.0.0.1 $(DNS_REDIRECTION)
+
 ############################################################################
 
-all: stop build run
+all: dns stop build run
+
+dependencies:
+	@echo "To make this work, you may need to install:"
+	@echo "- docker"
+	@echo "- docker-compose"
+	@echo "- dnsmasq"
+	@echo "- The corresponding alpine-linux image from dockerhub needed by the containers (Required on certain distribs only)"
+
+############################################################################
+
+dns:
+	@if ! grep -qF "$(TARGET_LINE)" $(HOSTS_FILE); then \
+        echo "Adding $(TARGET_LINE) to $(HOSTS_FILE)"; \
+        sudo sh -c "echo '$(TARGET_LINE)' >> $(HOSTS_FILE)"; \
+    else \
+        echo "$(TARGET_LINE) already exists in $(HOSTS_FILE)"; \
+    fi
 
 stop:
 	@if [ -n "$$(sudo docker ps | grep $(nginxContainer))" ]; then \
@@ -131,4 +152,12 @@ git:
 	@git push
 	@echo "\033[0;32m[✔️] Git respository successfuly updated\033[0m"
 
-.PHONY: all stop build run nginx wordpress mariadb kill clean clean-img clean-network clean-volumes fclean re purge purge-re ps ls git
+dns-check:
+	@if [ -n "$$(sudo docker ps | grep $(nginxContainer))" ] && [ -n "$$(sudo docker ps | grep $(wordpressContainer))" ] && [ -n "$$(sudo docker ps | grep $(mariadbContainer))" ]; then \
+		curl -k -X GET https://$(DNS_REDIRECTION) || { echo "\033[0;31m[❌] DNS redirection is not working at: https://$(DNS_REDIRECTION) \033[0m"; exit 1; } ; \
+		echo "\033[0;32m[✔️] DNS redirection is working at: https://$(DNS_REDIRECTION) \033[0m" ; \
+	else \
+		echo "\033[0;33m[ℹ️] Inception containers are not running, therefore dns-check cannot be done.\033[0m"; \
+	fi
+	
+.PHONY: all dependencies dns stop build run nginx wordpress mariadb kill clean clean-img clean-network clean-volumes fclean re purge purge-re ps ls git dns-check

@@ -1,3 +1,5 @@
+GIT_REPO=42-Inception
+
 USER := $(shell whoami)
 nginxContainer = nginxCompose
 wordpressContainer = wordpressCompose
@@ -46,7 +48,7 @@ setup-dns:
 	@if ! grep -qF "$(TARGET_LINE)" $(HOSTS_FILE); then \
 		echo "\033[0;33m[ℹ️] Adding $(TARGET_LINE) to $(HOSTS_FILE)\033[0m"; \
         echo "Adding $(TARGET_LINE) to $(HOSTS_FILE)"; \
-		sudo echo "$(TARGET_LINE)" > /tmp/inception_dns.txt && sudo cat /etc/hosts >> /tmp/inception_dns.txt && sudo mv /tmp/inception_dns.txt /etc/hosts ; \
+		sudo echo "$(TARGET_LINE) #FROM $(GIT_REPO)" > /tmp/inception_dns.txt && sudo cat /etc/hosts >> /tmp/inception_dns.txt && sudo mv /tmp/inception_dns.txt /etc/hosts ; \
     else \
         echo "$(TARGET_LINE) already exists in $(HOSTS_FILE)"; \
     fi
@@ -148,7 +150,10 @@ clean-volumes:
 		echo "\033[0;33m[ℹ️] Operation canceled\033[0m"; \
 	fi
 
-fclean: stop clean clean-img clean-network 
+clean-dns:
+	sudo sed -i '/#FROM $(GIT_REPO)/d' /etc/hosts
+
+fclean: stop clean clean-img clean-network clean-dns
 re: fclean all
 
 purge: fclean clean-volumes
@@ -178,4 +183,4 @@ dns-check:
 		echo "\033[0;33m[ℹ️] Inception containers are not running, therefore dns-check cannot be done.\033[0m"; \
 	fi
 	
-.PHONY: all dependencies setup-dns setup-alpine update-alpine stop build run nginx wordpress mariadb kill clean clean-img clean-network clean-volumes fclean re purge purge-re ps ls git dns-check
+.PHONY: all dependencies setup-dns setup-alpine update-alpine stop build run nginx wordpress mariadb kill clean clean-img clean-network clean-volumes clean-dns fclean re purge purge-re ps ls git dns-check

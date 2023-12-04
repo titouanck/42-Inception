@@ -12,5 +12,4 @@ if [ ! -f /var/www/html/index.php ]; then
     sed -i "s/define('DB_PASSWORD', '.*');/define('DB_PASSWORD', '$DB_PASSWORD');/" /var/www/html/wp-config.php
     sed -i "s/define('DB_HOST', '.*');/define('DB_HOST', 'mariadb:3306');/" /var/www/html/wp-config.php
     sed -i "s/define('DB_CHARSET', '.*');/define('DB_CHARSET', 'utf8mb4');/" /var/www/html/wp-config.php
-
 fi

